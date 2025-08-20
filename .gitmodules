@@ -1,0 +1,3 @@
+[submodule "deps/ReMem"]
+	path = deps/ReMem
+	url = https://github.com/jonahmer22/ReMem.git
