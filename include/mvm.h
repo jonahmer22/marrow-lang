@@ -1,16 +1,23 @@
 #ifndef MVM_H
 #define MVM_H
 
-#include <stdint.h>
-
-#include "bytecodeBlock.h"
+#include "common.h"
+#include "function.h"
 
 typedef struct MVM{
-	BytecodeBlock *currentBlock;	
+	// call stack
+	Stack callStack;	// 2048 slots
+	
+	// main stack
+	Stack stack;		// 4096 slots
+	
+	// main bytecode
+	Bytecode bytecode;	// 16284 slots
+	
+	// temp vm emulate lesser vm for not global (main) function
+	Stack *funCallStack;
+	Stack *funStack;
+	Bytecode *funBytecode;
 } MVM;
-
-void mvmInit();
-
-int mvmInsertByte(uint8_t byte);
 
 #endif
