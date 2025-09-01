@@ -3,14 +3,17 @@
 
 #include <stdint.h>
 
-#include "bytecodeBlock.h"
+#include "common.h"
 
 typedef struct MVM{
-	BytecodeBlock *currentBlock;	
+	// Value Stack is persistent accross vm state
+	// The stack includes function calls, when a function finishes it places it's return in it's place on the stack
+	ValueStack valueStack;
+
+	// Hold function specific data
+	Function *currentFunction;
 } MVM;
 
 void mvmInit();
-
-int mvmInsertByte(uint8_t byte);
 
 #endif
