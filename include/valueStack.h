@@ -1,8 +1,11 @@
 #ifndef VALUESTACK_H
 #define VALUESTACK_H
 
+#include "common.h"
+#include "value.h"
+
 typedef struct ValueStack{
-	Value *valueStack;
+	Value **valueStack;
 	
 	int stackTop;
 	int capacity;
@@ -10,8 +13,8 @@ typedef struct ValueStack{
 
 void valueStackInit(ValueStack *stack);
 
-void valueStackPush(Value *value);
+void valueStackPush(ValueStack *stack, Value *value);
 
-Value *valueStackPop();
+Value *valueStackPop(ValueStack* stack);
 
 #endif

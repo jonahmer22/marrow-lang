@@ -1,9 +1,9 @@
 #ifndef MVM_H
 #define MVM_H
 
-#include <stdint.h>
-
 #include "common.h"
+#include "valueStack.h"
+#include "function.h"
 
 typedef struct MVM{
 	// Value Stack is persistent accross vm state

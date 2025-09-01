@@ -1,4 +1,5 @@
 #include "common.h"
+#include "valueStack.h"
 
 #define SMALLEST_STACK 8
 
@@ -8,8 +9,8 @@
 
 static void growStack(ValueStack *stack){
 	// initialize new values
-	tempCap = stack.capacity * 2;
-	tempStack = gcAlloc(sizeof(Value*) * tempCap);
+	int tempCap = stack->capacity * 2;
+	Value **tempStack = gcAlloc(sizeof(Value*) * tempCap);
 
 	// copy over old values
 	for(int i = 0; i < stack->capacity; i++){
