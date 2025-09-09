@@ -3,3 +3,11 @@ all:
 
 clean:
 	rm marrow-lang
+
+test:
+	python3 -m venv env
+	source ./env/bin/activate
+	pip3 install pytest
+
+clean-test:
+	rm -rf ./env/

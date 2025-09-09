@@ -4,6 +4,10 @@
 # Marrow Binary
 marrow-lang
 
+# Python venv for testing
+env/
+.pytest_cache
+
 # Prerequisites
 *.d
 
