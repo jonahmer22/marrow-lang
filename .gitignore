@@ -1,6 +1,9 @@
 # MacOS Stuff
 *.DS_Store
 
+# Marrow Binary
+marrow-lang
+
 # Prerequisites
 *.d
 
