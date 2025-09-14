@@ -6,7 +6,7 @@
 
 #include "value.h"
 
-typedef struct HashMap HashMap;
+typedef struct ValueHashMap ValueHashMap;
 typedef struct Function Function;
 
 typedef struct Frame{
@@ -24,7 +24,7 @@ typedef struct Frame{
 	size_t stackSize;
 
 	// locals
-	HashMap *locals;
+	ValueHashMap *locals;
 
 	// Value being enacted on (optional and only when using the var.function() syntax)
 	Value *receiver;
