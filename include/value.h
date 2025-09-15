@@ -6,10 +6,10 @@
 #include <stddef.h>
 
 // forward declarations
-typedef struct valueList valueList;
-typedef struct valueString valueString;
-typedef struct valueHashMap valueHashMap;
-typedef struct valueObject valueObject;
+typedef struct ValueList ValueList;
+typedef struct ValueString ValueString;
+typedef struct ValueHashMap ValueHashMap;
+typedef struct ValueObject ValueObject;
 
 // used to label types and functions that are attatched to types (methods)
 typedef enum TypeID{
@@ -32,10 +32,10 @@ typedef struct Value{
 	union{
 		double num;
 		bool _bool;
-		valueList *list;
-		valueString *string;
-		valueHashMap *hashMap;
-		valueObject *object;
+		ValueList *list;
+		ValueString *string;
+		ValueHashMap *hashMap;
+		ValueObject *object;
 	} is;
 } Value;
 
