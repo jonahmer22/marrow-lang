@@ -15,12 +15,16 @@ typedef struct ValueHashMap{
 	size_t capacity;
 } ValueHashMap;
 
+// initialization
 ValueHashMap *valueHashMapInit();
 
+// add an entry, entirely optional use of return value
 Value *valueHashMapAdd(ValueHashMap *hashMap, const char *name, Value *value);
 
+// fetch the value based off of it's name (key is a string) and return it
 Value *valueHashMapGet(ValueHashMap *hashMap, const char *name);
 
+// remove a value from the hash map and return it's value
 Value *valueHashMapRemove(ValueHashMap* hashMap, const char *name);
 
 #endif
