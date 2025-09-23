@@ -18,7 +18,7 @@ Frame *frameInit(Function *function, Value *arguements, uint16_t arity, Frame *r
 	result->arity = arity;
 
 	// initialize stack
-	result->stack = gcAlloc(sizeof(Value) * 16);
+	result->stack = gcAlloc(sizeof(Value*) * 16);
 	result->stackTop = 0;
 	result->stackSize = 16;
 
@@ -30,6 +30,26 @@ Frame *frameInit(Function *function, Value *arguements, uint16_t arity, Frame *r
 
 	// return the finished result
 	return result;
+}
+
+void frameFree(Frame *frame){
+	if(!frame){
+		return;
+	}
+
+	if(frame->locals){
+		valueHashMapClear(frame->locals);
+	}
+
+	frame->function = NULL;
+	frame->ip = 0;
+	frame->arguements = NULL;
+	frame->arity = 0;
+	frame->stack = NULL;
+	frame->stackTop = 0;
+	frame->stackSize = 0;
+	frame->locals = NULL;
+	frame->reciever = NULL;
 }
 
 Value *localAdd(Frame *frame, const char *name, Value *value){
@@ -74,6 +94,10 @@ Value *stackPush(Frame *frame, Value *value){
 }
 
 Value *stackPeek(Frame *frame){
+	if(frame->stackTop == 0){
+		return NULL;
+	}
+
 	return (frame->stack[frame->stackTop - 1]);
 }
 
@@ -91,9 +115,9 @@ Value *stackPop(Frame *frame){
 }
 
 inline size_t jmpRelIP(Frame *frame, int64_t jmp){
-	if(frame->ip - jmp >= 0 && frame->function->codeLen > frame->ip + jmp){
-		frame->ip += jmp;
-		
+	int64_t target = (int64_t)frame->ip + jmp;
+	if(target >= 0 && (size_t)target <= frame->function->codeLen){
+		frame->ip = (size_t)target;
 		return frame->ip;
 	}
 	
@@ -103,7 +127,7 @@ inline size_t jmpRelIP(Frame *frame, int64_t jmp){
 }
 
 inline size_t jmpIP(Frame *frame, size_t idx){
-	if(idx >= 0 && idx < frame->function->codeLen){
+	if(idx <= frame->function->codeLen){
 		frame->ip = idx;
 
 		return frame->ip;
@@ -115,7 +139,7 @@ inline size_t jmpIP(Frame *frame, size_t idx){
 }
 
 inline size_t incrementIP(Frame *frame){
-	if(frame->ip + 1 < frame->function->codeLen){
+	if(frame->ip + 1 <= frame->function->codeLen){
 		return ++(frame->ip);
 	}
 
@@ -129,10 +153,43 @@ Value *frameReturn(Frame *frame){
 	Value *result = stackPop(frame);
 	
 	// if there is a recieving frame
-	if(frame->reciever){
+	if(frame->reciever && result){
 		stackPush(frame->reciever, result);
+		return (stackPeek(frame->reciever));
 	}
 
 	// return the result of the frame, entirely optional to use
-	return (stackPeek(frame->reciever));
+	return result;
+}
+
+const uint8_t *frameGetCode(Frame *frame){
+	if(!frame || !frame->function){
+		return NULL;
+	}
+
+	return frame->function->code;
+}
+
+uint8_t framePeekBytecode(Frame *frame){
+	if(!frame || !frame->function || !frame->function->code){
+		error(13, "Attempting to read bytecode from an empty frame", true);
+		return 0;
+	}
+
+	if(frame->ip >= frame->function->codeLen){
+		error(14, "Attempting to read bytecode past the end of the block", true);
+		return 0;
+	}
+
+	return frame->function->code[frame->ip];
+}
+
+uint8_t frameReadBytecode(Frame *frame){
+	uint8_t byte = framePeekBytecode(frame);
+
+	if(frame->ip < frame->function->codeLen){
+		incrementIP(frame);
+	}
+
+	return byte;
 }
