@@ -22,4 +22,25 @@ typedef struct Function{
 	size_t constCount;
 } Function;
 
+// initialization and cleanup
+Function *functionInit(const char *name, uint16_t arity);
+Function *functionInitMethod(TypeID methodType, const char *name, uint16_t arity);
+Function *functionClone(Function *source);
+void functionFree(Function *function);
+
+// bytecode management
+void functionSetBytecode(Function *function, const uint8_t *code, size_t codeLen);
+void functionResetCode(Function *function);
+
+// constant pool management
+void functionSetConstants(Function *function, const Value *constPool, size_t constCount);
+const Value *functionGetConst(Function *function, size_t index);
+size_t functionGetConstCount(Function *function);
+
+// metadata helpers
+void functionSetMethodType(Function *function, TypeID methodType);
+TypeID functionGetMethodType(Function *function);
+uint16_t functionGetArity(Function *function);
+const char *functionGetName(Function *function);
+
 #endif

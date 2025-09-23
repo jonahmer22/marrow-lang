@@ -33,6 +33,8 @@ typedef struct Frame{
 // create a frame with args for function, arguements, and reciever (any empty args should be NULL)
 // initializes an empty stack and locals hashmap
 Frame *frameInit(Function *function, Value *arguements, uint16_t arity, Frame *reciever);
+void frameFree(Frame *frame);
+void frameReset(Frame *frame, Function *function, Value *arguements, uint16_t arity);
 
 // manage locals
 Value *localAdd(Frame *frame, const char *name, Value *value);	// return is optional to use
@@ -43,11 +45,19 @@ Value *localRemove(Frame *frame, const char *name);
 Value *stackPush(Frame *frame, Value *value);	// return is optional to use
 Value *stackPeek(Frame *frame);
 Value *stackPop(Frame *frame);
+void frameStackClear(Frame *frame);
+size_t frameStackCount(Frame *frame);
 
 // IP modification returns of all these functions are entirely optional to use
 inline size_t jmpRelIP(Frame *frame, int64_t jmp);	// jmp relative to current position
 inline size_t jmpIP(Frame *frame, size_t idx);		// jmp to idx in the bytecode
 inline size_t incrementIP(Frame *frame);		// advance the IP by 1
+void frameSetIP(Frame *frame, size_t idx);
+
+// bytecode access
+const uint8_t *frameGetCode(Frame *frame);
+uint8_t framePeekBytecode(Frame *frame);
+uint8_t frameReadBytecode(Frame *frame);
 
 // return
 // adds the value on top of the stack to the top of the stack of the reciever
