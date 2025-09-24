@@ -49,9 +49,9 @@ void frameStackClear(Frame *frame);
 size_t frameStackCount(Frame *frame);
 
 // IP modification returns of all these functions are entirely optional to use
-inline size_t jmpRelIP(Frame *frame, int64_t jmp);	// jmp relative to current position
-inline size_t jmpIP(Frame *frame, size_t idx);		// jmp to idx in the bytecode
-inline size_t incrementIP(Frame *frame);		// advance the IP by 1
+size_t jmpRelIP(Frame *frame, int64_t jmp);	// jmp relative to current position
+size_t jmpIP(Frame *frame, size_t idx);		// jmp to idx in the bytecode
+size_t incrementIP(Frame *frame);		// advance the IP by 1
 void frameSetIP(Frame *frame, size_t idx);
 
 // bytecode access

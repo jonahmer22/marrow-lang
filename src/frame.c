@@ -33,23 +33,7 @@ Frame *frameInit(Function *function, Value *arguements, uint16_t arity, Frame *r
 }
 
 void frameFree(Frame *frame){
-	if(!frame){
-		return;
-	}
-
-	if(frame->locals){
-		valueHashMapClear(frame->locals);
-	}
-
-	frame->function = NULL;
-	frame->ip = 0;
-	frame->arguements = NULL;
-	frame->arity = 0;
-	frame->stack = NULL;
-	frame->stackTop = 0;
-	frame->stackSize = 0;
-	frame->locals = NULL;
-	frame->reciever = NULL;
+	(void)frame;
 }
 
 Value *localAdd(Frame *frame, const char *name, Value *value){
@@ -114,7 +98,7 @@ Value *stackPop(Frame *frame){
 	return (frame->stack[frame->stackTop]);
 }
 
-inline size_t jmpRelIP(Frame *frame, int64_t jmp){
+size_t jmpRelIP(Frame *frame, int64_t jmp){
 	int64_t target = (int64_t)frame->ip + jmp;
 	if(target >= 0 && (size_t)target <= frame->function->codeLen){
 		frame->ip = (size_t)target;
@@ -126,7 +110,7 @@ inline size_t jmpRelIP(Frame *frame, int64_t jmp){
 	return 0;
 }
 
-inline size_t jmpIP(Frame *frame, size_t idx){
+size_t jmpIP(Frame *frame, size_t idx){
 	if(idx <= frame->function->codeLen){
 		frame->ip = idx;
 
@@ -138,7 +122,7 @@ inline size_t jmpIP(Frame *frame, size_t idx){
 	return 0;
 }
 
-inline size_t incrementIP(Frame *frame){
+size_t incrementIP(Frame *frame){
 	if(frame->ip + 1 <= frame->function->codeLen){
 		return ++(frame->ip);
 	}
@@ -162,34 +146,38 @@ Value *frameReturn(Frame *frame){
 	return result;
 }
 
-const uint8_t *frameGetCode(Frame *frame){
-	if(!frame || !frame->function){
-		return NULL;
-	}
+void frameStackClear(Frame *frame){
+	(void)frame;
+}
 
-	return frame->function->code;
+size_t frameStackCount(Frame *frame){
+	(void)frame;
+	return 0;
+}
+
+void frameSetIP(Frame *frame, size_t idx){
+	(void)frame;
+	(void)idx;
+}
+
+void frameReset(Frame *frame, Function *function, Value *arguements, uint16_t arity){
+	(void)frame;
+	(void)function;
+	(void)arguements;
+	(void)arity;
+}
+
+const uint8_t *frameGetCode(Frame *frame){
+	(void)frame;
+	return NULL;
 }
 
 uint8_t framePeekBytecode(Frame *frame){
-	if(!frame || !frame->function || !frame->function->code){
-		error(13, "Attempting to read bytecode from an empty frame", true);
-		return 0;
-	}
-
-	if(frame->ip >= frame->function->codeLen){
-		error(14, "Attempting to read bytecode past the end of the block", true);
-		return 0;
-	}
-
-	return frame->function->code[frame->ip];
+	(void)frame;
+	return 0;
 }
 
 uint8_t frameReadBytecode(Frame *frame){
-	uint8_t byte = framePeekBytecode(frame);
-
-	if(frame->ip < frame->function->codeLen){
-		incrementIP(frame);
-	}
-
-	return byte;
+	(void)frame;
+	return 0;
 }

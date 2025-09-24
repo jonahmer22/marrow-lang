@@ -4,8 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-typedef struct Value Value;
-typedef enum TypeID TypeID;
+#include "value.h"
 
 typedef struct Function{
 	// identification
