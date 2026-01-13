@@ -1,1 +1,0 @@
-// idek if this is going to be used, opcode is just kinda an enum
