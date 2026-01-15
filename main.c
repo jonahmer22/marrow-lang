@@ -1907,6 +1907,8 @@ TokenList *tokenize(const char *buffer){
 				tok = tokenizeBraces(p);
 				tokenListAppend(list, tok);
 				break;
+			case ';':
+				break;
 			default:
 				if(isIdentStart(c)){
 					tok = tokenizeThing(p);
