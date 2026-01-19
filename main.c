@@ -1214,7 +1214,6 @@ char *tokenPrint(Token *token){
 			snprintf(outS, size, "FUNCTION");
 			break;
 		case TOK_PRINT:
-			// TODO
 			snprintf(outS, size, "PRINT");
 			break;
 		case TOK_RETURN:
@@ -1609,7 +1608,7 @@ TokenList *tokenize(const char *buffer){
 	while((c = advance(p)) != '\0'){
 		Token *tok = NULL;
 		switch(c){
-			case '#':
+			case '#':{
 				int ch;
 				while((ch = advance(p)) != '\0'){
 					if(ch == '\n'){
@@ -1620,6 +1619,7 @@ TokenList *tokenize(const char *buffer){
 						break;
 				}
 				break;
+			}
 			case '\t': case '\r': case ' ':
 				continue;
 				break;
