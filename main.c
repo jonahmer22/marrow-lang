@@ -1205,7 +1205,7 @@ char *tokenPrint(Token *token){
 			snprintf(outS, size, ")");
 			break;
 		case TOK_IDENT:
-			snprintf(outS, size, token->data.str->buff);
+			snprintf(outS, size, "%s", token->data.str->buff);
 			break;
 		case TOK_VAR:
 			snprintf(outS, size, "VAR");
