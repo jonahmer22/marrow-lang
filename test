@@ -1,3 +1,19 @@
 "This = " + -75392.085843298345965474956;
 
-def function_name(a, 45)
+def function_name(a){
+	var x = a
+
+	while(x < 100){
+		x++
+	}
+
+	for(var i = 0; i < x; i++){
+		print i
+	}
+
+	print x - i
+
+	return i
+}
+
+print function_name(32)
