@@ -1975,6 +1975,7 @@ int main(int argc, char **argv){
 	// 	TODO: emit bytecode based on AST
 	free(buff);	// buffer can be freed after emition of bytecode	
 	//	TODO: execute bytecode
+	//	requires cortex-vm to be completed and the inclusion of the cortex-vm.h header
 
 	arenaDestroy();
 	return EXIT_SUCCESS;
