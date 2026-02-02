@@ -30,7 +30,6 @@ char *tokenPrint(Token *token){
 			snprintf(outS, size, "%s", token->data.str->buff);
 			break;
 		case TOK_BOOL:
-			// TODO
 			snprintf(outS, size, (token->data.b ? "TRUE" : "FALSE"));
 			break;
 		case TOK_NONE:
@@ -428,7 +427,6 @@ bool isIdentCont(int c){
 	return isIdentStart(c) || (c >= '0' && c <= '9');
 }
 Token *tokenizeThing(Parser *p){
-	// TODO
 	// tokenizes keywords and variable names
 	// anything that doesn't fit into the values
 	//
