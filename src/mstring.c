@@ -2,8 +2,6 @@
 // Strings
 // =======
 
-#include <string.h>
-
 #include "mstring.h"
 #include "arena.h"
 

@@ -16,11 +16,12 @@ int main(int argc, char **argv){
 	char *buff = readFile(argv[1], &len);
 
 	// execution
-	// 	TODO: tokenize the text
+	// 	DONE: tokenize the text
 	TokenList *list = tokenize(buff);
 	tokenListPrint(list);
 	// 	TODO: convert the tokens into an AST
 	// 	TODO: emit bytecode based on AST
+	//	requires cortex-vm to be completed and the inclusion of the cortex-vm.h header
 
 	// buffer can be freed after emition of bytecode
 	free(buff);
