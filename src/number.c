@@ -5,6 +5,7 @@
 #include "number.h"
 #include "arena.h"
 
+// defines the precision of number division
 #ifndef NUBMER_DIV_PREC
 #define NUMBER_DIV_PREC 16
 #endif
