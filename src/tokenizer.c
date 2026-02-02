@@ -219,8 +219,6 @@ Token *tokenizeNum(Parser *p){
 	// 	- must in one of the following forms:
 	// 		- 123456
 	// 		- 123.456
-	// TODO: should eventually have it's own arbitrary accuracy type
-	// 	 for now should be just a double.
 	Number *result = numberInit();
 	
 	result->neg = false;
