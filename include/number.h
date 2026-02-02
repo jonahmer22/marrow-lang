@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 typedef struct Digit{
-	uint8_t digit;
+	uint8_t digit;	// TODO: should eventually become a uint32_t and should use the full range of numbers
 
 	struct Digit *next;
 	struct Digit *prev;
