@@ -806,22 +806,18 @@ TokenList *tokenize(const char *buffer){
 			case '(':
 			case ')':
 				// must have a closing )
-				// prob it's own function to keep state if
-				// entered or exiting a parenthesis block
-				// should also contain an error message generator
 				tok = tokenizeParenthesis(p);
 				tokenListAppend(list, tok);
 				break;
 			case '[':
 			case ']':
+				// must have a closing ]
 				tok = tokenizeBrackets(p);
 				tokenListAppend(list, tok);
 				break;
 			case '{':
 			case '}':
 				// must have a closing }
-				// same thing with the parenthesis block
-				// probably own function to track state
 				tok = tokenizeBraces(p);
 				tokenListAppend(list, tok);
 				break;
@@ -842,25 +838,18 @@ TokenList *tokenize(const char *buffer){
 	}
 	if(parenDepth != 0){
 		fprintf(stderr, "[Line %ld]: unclosed parenthesis, last opening parenthesis on line %ld.\n", parenLastLine, parenLastLine);
-		// TODO: should also have better printing and tell the user where 
-		// 	 the issue might be
 
 		arenaDestroy();
 		exit(EXIT_FAILURE);
 	}
 	if(bracketDepth != 0){
 		fprintf(stderr, "[Line %ld]: unclosed bracket, last opening bracket on line %ld.\n", bracketLastLine, braceLastLine);
-		// TODO: should also have better printing and tell the user where 
-		// 	 the issue might be
 
 		arenaDestroy();
 		exit(EXIT_FAILURE);
 	}
 	if(braceDepth != 0){
 		fprintf(stderr, "[Line %ld]: unclosed brace, last opening brace on line %ld.\n", braceLastLine, braceLastLine);
-		
-		// TODO: should also have better printing and tell the user where 
-		// 	 the issue might be
 
 		arenaDestroy();
 		exit(EXIT_FAILURE);

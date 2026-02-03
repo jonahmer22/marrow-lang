@@ -3,6 +3,10 @@
 
 #include "tokenizer.h"
 
+typedef enum SyntaxType{
+
+} SyntaxType;
+
 typedef struct Syntax{
 
 } Syntax;
