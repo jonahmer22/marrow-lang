@@ -315,13 +315,17 @@ Token *tokenizeString(Parser *p){
 	return temp;
 }
 static short parenDepth = 0;	// state holders
+static size_t parenLastLine = 0;
 static short bracketDepth = 0;
+static size_t bracketLastLine = 0;
 static short braceDepth = 0;
+static size_t braceLastLine = 0;
 Token *tokenizeParenthesis(Parser *p){
 	// ()
 	Token *temp = tokenInit();
 	switch(prev(p)){
 		case '(':
+			parenLastLine = p->line + 1;
 			parenDepth++;
 			
 			temp->type = TOK_LEFT_PAREN;
@@ -356,6 +360,7 @@ Token *tokenizeBrackets(Parser *p){
 	Token *temp = tokenInit();
 	switch(prev(p)){
 		case '[':
+			bracketLastLine = p->line + 1;
 			bracketDepth++;
 			
 			temp->type = TOK_LEFT_BRACKET;
@@ -390,6 +395,7 @@ Token *tokenizeBraces(Parser *p){
 	Token *temp = tokenInit();
 	switch(prev(p)){
 		case '{':
+			braceLastLine = p->line + 1;
 			braceDepth++;
 			
 			temp->type = TOK_LEFT_BRACE;
@@ -489,7 +495,7 @@ Token *tokenizeThing(Parser *p){
 		tok->data.b = false;
 		return tok;
 	}
-	else if(stringCharCmp(s, "none") || stringCharCmp(s, "null")){
+	else if(stringCharCmp(s, "none") || stringCharCmp(s, "null") || stringCharCmp(s, "nil")){
 		tok->type = TOK_NONE;
 		tok->data.none = NULL;
 		return tok;
@@ -835,30 +841,28 @@ TokenList *tokenize(const char *buffer){
 		}
 	}
 	if(parenDepth != 0){
-		fprintf(stderr, "[ERROR]: non-valid parenthesis depth.\n");
-
-		// TODO: all of these exits need to arenaDestroy() for memory safety
-		
+		fprintf(stderr, "[Line %ld]: unclosed parenthesis, last opening parenthesis on line %ld.\n", parenLastLine, parenLastLine);
 		// TODO: should also have better printing and tell the user where 
 		// 	 the issue might be
+
+		arenaDestroy();
 		exit(EXIT_FAILURE);
 	}
 	if(bracketDepth != 0){
-		fprintf(stderr, "[ERROR]: non-valid bracket depth.\n");
-
-		// TODO: all of these exits need to arenaDestroy() for memory safety
-		
+		fprintf(stderr, "[Line %ld]: unclosed bracket, last opening bracket on line %ld.\n", bracketLastLine, braceLastLine);
 		// TODO: should also have better printing and tell the user where 
 		// 	 the issue might be
+
+		arenaDestroy();
 		exit(EXIT_FAILURE);
 	}
 	if(braceDepth != 0){
-		fprintf(stderr, "[ERROR]: non-valid brace depth.\n");
-
-		// TODO: all of these exits need to arenaDestroy() for memory safety
+		fprintf(stderr, "[Line %ld]: unclosed brace, last opening brace on line %ld.\n", braceLastLine, braceLastLine);
 		
 		// TODO: should also have better printing and tell the user where 
 		// 	 the issue might be
+
+		arenaDestroy();
 		exit(EXIT_FAILURE);
 	}
 
